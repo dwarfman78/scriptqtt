@@ -1,0 +1,3 @@
+var connok = client.connect();
+connok.wait_for_completion();
+print("ok");
