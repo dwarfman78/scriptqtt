@@ -16,7 +16,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_definitions(-DCHAISCRIPT_NO_THREADS)
 add_definitions(-DCHAISCRIPT_NO_THREADS_WARNING)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp ChaiscriptMosquitto.cpp ChaiscriptMosquitto.hpp)
 
 
 link_directories(${PROJECT_SOURCE_DIR}/extlibs/mosquitto/lib/cpp)

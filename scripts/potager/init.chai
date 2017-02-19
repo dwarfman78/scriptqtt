@@ -5,14 +5,6 @@ var brokerPort = 1883;
 var keepAlive = 60;
 var cleanSession = false;
 
-#init mosquitto
+# init mosquitto
 mosquitto.init(clientId,cleanSession);
 mosquitto.connect(brokerIp,brokerPort,keepAlive);
-
-#prepare and send message
-var message = Message("home/cuve","1",1,false);
-message.send(mosquitto);
-
-print("Message sent : " + to_string(message.id));
-# disconnect mosquitto
-mosquitto.disconnect();

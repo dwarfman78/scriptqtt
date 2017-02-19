@@ -1,0 +1,6 @@
+# Subscribe to topics
+mosquitto.subscribe("home/cuve",0);
+mosquitto.subscribe("home/capteur",0);
+
+# Defining vars
+var precMessageReceived = 0;

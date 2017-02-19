@@ -1,10 +1,6 @@
 #include <iostream>
 
-#include <chaiscript/chaiscript.hpp>
-
-#include <chaiscript/chaiscript_stdlib.hpp>
-
-#include "DataModels.hpp"
+#include "ChaiscriptMosquitto.hpp"
 
 using namespace std;
 
@@ -12,30 +8,24 @@ int main(int argc, char *argv[]) {
 
     if(argc == 2) {
 
+        mosqpp::lib_init();
 
-        chaiscript::ChaiScript mChai(chaiscript::Std_Lib::library());
+        chaiscript::ChaiScript chai(chaiscript::Std_Lib::library());
+        ChaiscriptMosquitto cm(chai,std::string(argv[1]));
 
-        mosqpp::mosquittopp mosquitto("CLIENT", true);
+        while(cm.shouldContinue) {
+            cm.loop(1000,1);
+        }
 
-        mChai.add(chaiscript::var(&mosquitto), "mosquitto");
+        cm.disconnect();
 
-        mChai.add(chaiscript::user_type<Message>(), "Message");
-        mChai.add(chaiscript::constructor<Message(const std::string &pTopic, const std::string &pContent, int pQos,
-                                                  bool pRetained)>(), "Message");
-        mChai.add(chaiscript::fun(&Message::send), "send");
-        mChai.add(chaiscript::fun(&Message::mMessId),"id");
-
-        mChai.add(chaiscript::fun<int, mosqpp::mosquittopp, const char *, int, int>(&mosqpp::mosquittopp::connect),
-                  "connect");
-        mChai.add(chaiscript::fun(&mosqpp::mosquittopp::disconnect), "disconnect");
-        mChai.add(chaiscript::fun(&mosqpp::mosquittopp::reinitialise), "init");
-
-        mChai.eval_file(argv[1]);
+        mosqpp::lib_cleanup();
 
         return 0;
     }
     else
     {
         std::cerr << "Invalid argument, should be : scriptqtt 'scriptname' ";
+        return -1;
     }
 }
