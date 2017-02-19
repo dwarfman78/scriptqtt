@@ -1,0 +1,18 @@
+# accessible var is 'mosquitto'
+var clientId = "CLIENT".c_str();
+var brokerIp = "192.168.1.248".c_str();
+var brokerPort = 1883;
+var keepAlive = 60;
+var cleanSession = false;
+
+#init mosquitto
+mosquitto.init(clientId,cleanSession);
+mosquitto.connect(brokerIp,brokerPort,keepAlive);
+
+#prepare and send message
+var message = Message("home/cuve","1",1,false);
+message.send(mosquitto);
+
+print("Message sent : " + to_string(message.id));
+# disconnect mosquitto
+mosquitto.disconnect();

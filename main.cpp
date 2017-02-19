@@ -1,43 +1,41 @@
 #include <iostream>
 
-#include <mosquittopp.h>
-
 #include <chaiscript/chaiscript.hpp>
 
 #include <chaiscript/chaiscript_stdlib.hpp>
 
+#include "DataModels.hpp"
+
 using namespace std;
 
-int main() {
-    cout << "Hello, World!" << endl;
+int main(int argc, char *argv[]) {
 
-    chaiscript::ChaiScript mChai(chaiscript::Std_Lib::library());
-
+    if(argc == 2) {
 
 
-    //mChai.add(chaiscript::var(&client),"client");
+        chaiscript::ChaiScript mChai(chaiscript::Std_Lib::library());
 
-    //chaiscript::fun<ReturnType (ParamType1, ParamType2)>(&function_with_overloads)
-    //chaiscript::fun([this](const std::string& who, const std::string& something){ say(who,something); })
+        mosqpp::mosquittopp mosquitto("CLIENT", true);
 
-    //mChai.add(chaiscript::fun(&mqtt::async_client::connect,std::ref(client)),"connect");
+        mChai.add(chaiscript::var(&mosquitto), "mosquitto");
 
-    //mChai.add(chaiscript::base_class<mqtt::iasync_client, mqtt::async_client>());
+        mChai.add(chaiscript::user_type<Message>(), "Message");
+        mChai.add(chaiscript::constructor<Message(const std::string &pTopic, const std::string &pContent, int pQos,
+                                                  bool pRetained)>(), "Message");
+        mChai.add(chaiscript::fun(&Message::send), "send");
+        mChai.add(chaiscript::fun(&Message::mMessId),"id");
 
-    //mChai.add(chaiscript::fun<mqtt::itoken_ptr,mqtt::async_client>(&mqtt::async_client::connect),"connect");
+        mChai.add(chaiscript::fun<int, mosqpp::mosquittopp, const char *, int, int>(&mosqpp::mosquittopp::connect),
+                  "connect");
+        mChai.add(chaiscript::fun(&mosqpp::mosquittopp::disconnect), "disconnect");
+        mChai.add(chaiscript::fun(&mosqpp::mosquittopp::reinitialise), "init");
 
-    //mChai.add(chaiscript::fun<void,mqtt::itoken>(&mqtt::itoken::wait_for_completion),"wait_for_completion");
-    //mChai.add(chaiscript::fun<mqtt::itoken_ptr (mqtt::async_client::*) ()>(&mqtt::async_client::connect),"connect");
+        mChai.eval_file(argv[1]);
 
-    //mChai.eval_file("scripts/connectMe.chai");
-
-    mosqpp::mosquittopp mosquitto("CLIENT",true);
-
-    mosquitto.connect("192.168.1.248");
-
-    mosquitto.publish(nullptr,"home/cuve",1,"1",1,false);
-
-    mosquitto.disconnect();
-
-    return 0;
+        return 0;
+    }
+    else
+    {
+        std::cerr << "Invalid argument, should be : scriptqtt 'scriptname' ";
+    }
 }
