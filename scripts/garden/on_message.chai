@@ -1,0 +1,23 @@
+print("Message received from topic " + message.topic +" : "+message.content);
+
+if(message.topic == tankTopic)
+{
+    nbMessageReceived += 1;
+
+    print("Nb messages received so far : " + to_string(nbMessageReceived));
+
+    if(nbMessageReceived>4)
+    {
+        mosquitto.disconnect();
+        mosquitto.continue=false;
+    }
+    else
+    {
+        var message = Message(sensorTopic,to_string(nbMessageReceived),1,false);
+        message.send(mosquitto);
+    }
+}
+else if(message.topic == sensorTopic)
+{
+    print("Message from sensor : " + message.content);
+}

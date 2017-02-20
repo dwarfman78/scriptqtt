@@ -1,0 +1,6 @@
+#########################################
+# Subscribe to topics
+#########################################
+mosquitto.subscribe(tankTopic,0);
+mosquitto.subscribe(sensorTopic,0);
+#########################################
