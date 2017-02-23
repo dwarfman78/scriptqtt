@@ -39,7 +39,8 @@ ChaiscriptMosquitto::ChaiscriptMosquitto(chaiscript::ChaiScript& pChai,const std
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    // Call init script.
+    // Call init scripts.
+    mChai.eval_file("scripts/common/init.chai");
     mChai.eval_file("scripts/"+mDirPrefix+"/init.chai");
 
 }
@@ -57,6 +58,7 @@ void ChaiscriptMosquitto::on_message(const struct mosquitto_message *message)
     mChai.add(chaiscript::var(mess),"message");
 
     // Call the on_message script.
+    mChai.eval_file("scripts/common/on_message.chai");
     mChai.eval_file("scripts/"+mDirPrefix+"/on_message.chai");
 
 }
@@ -65,6 +67,7 @@ void ChaiscriptMosquitto::on_connect(int rc)
     if(rc == 0)
     {
         // if the connection is successful, call the on_connect script.
+        mChai.eval_file("scripts/common/on_connect.chai");
         mChai.eval_file("scripts/" + mDirPrefix + "/on_connect.chai");
     }
     else

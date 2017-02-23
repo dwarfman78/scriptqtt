@@ -1,0 +1,1 @@
+Those scripts are provided as examples for publishing and subscribing messages to/from a MQTT broker.

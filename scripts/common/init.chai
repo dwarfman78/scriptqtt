@@ -1,0 +1,15 @@
+#########################################
+# Init vars
+#########################################
+var clientId = "CLIENT".c_str();
+var brokerIp = "192.168.1.248".c_str();
+var brokerPort = 1883;
+var keepAlive = 60;
+var cleanSession = false;
+
+#########################################
+# init mosquitto
+#########################################
+mosquitto.init(clientId,cleanSession);
+mosquitto.connect(brokerIp,brokerPort,keepAlive);
+#########################################

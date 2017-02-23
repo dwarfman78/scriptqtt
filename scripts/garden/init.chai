@@ -1,22 +1,4 @@
 #########################################
-# Init vars
-#########################################
-var clientId = "CLIENT".c_str();
-var brokerIp = "192.168.1.248".c_str();
-var brokerPort = 1883;
-var keepAlive = 60;
-var cleanSession = false;
-
-#########################################
 # Custom vars
 #########################################
-var nbMessageReceived = 0;
-var tankTopic = "home/tank";
-var sensorTopic = "home/sensor";
-
-#########################################
-# init mosquitto
-#########################################
-mosquitto.init(clientId,cleanSession);
-mosquitto.connect(brokerIp,brokerPort,keepAlive);
-#########################################
+# TODO

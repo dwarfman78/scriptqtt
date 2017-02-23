@@ -1,0 +1,1 @@
+Those scripts manage power over the house.

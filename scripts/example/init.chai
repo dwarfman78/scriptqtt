@@ -1,5 +1,7 @@
 #########################################
-# Subscribe to topics
+# Custom vars
 #########################################
-# TODO
+var nbMessageReceived = 0;
+var tankTopic = "home/tank";
+var sensorTopic = "home/sensor";
 #########################################

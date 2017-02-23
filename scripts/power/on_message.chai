@@ -1,0 +1,12 @@
+if(message.content == "night")
+{
+    print("it's night time, turning TV OFF");
+    var messageOut = Message(tvTopic,"OFF",1,true);
+    messageOut.send(mosquitto);
+}
+else
+{
+    print("daytime is : " + message.content + " turning TV ON");
+    var messageOut = Message(tvTopic,"ON",1,true);
+    messageOut.send(mosquitto);
+}

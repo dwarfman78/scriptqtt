@@ -1,0 +1,1 @@
+Those scripts manage all the gardening stuff (watering..)
