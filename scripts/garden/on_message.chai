@@ -1,1 +1,63 @@
-# TODO
+if(message.topic == dayTimeTopic)
+{
+    if(message.content == "evening")
+    {
+        if(nbValRec > 0)
+        {
+            var todayLightValue = cumulVal / nbValRec;
+
+            if(todayLightValue > threshold && tankWaterSensor == "1")
+            {
+                var messageOut = Message(pumpTopic,"ON",1,true);
+                messageOut.send(mosquitto);
+                print (to_string(todayLightValue) + ">" + to_string(threshold));
+                print("Pump on");
+            }
+        }
+        nbValRec = 0;
+        cumulVal = 0;
+        stopCumul = true;
+    }
+    if(message.content == "night")
+    {
+        var messageOut = Message(pumpTopic,"OFF",1,true);
+        messageOut.send(mosquitto);
+        print("Pump off");
+    }
+    if(message.content == "day")
+    {
+        stopCumul = false;
+    }
+}
+else if (message.topic == tankLightSensorTopic)
+{
+    if(!stopCumul)
+    {
+        nbValRec+=1;
+        cumulVal+=to_int(message.content);
+        print(cumulVal);
+    }
+}
+else if (message.topic == tankWaterSensorTopic)
+{
+    if(message.content.trim() == "0")
+    {
+        tankWaterSensor = "0";
+
+        if(pumpStatus == "ON")
+        {
+            var messageOut = Message(pumpTopic,"OFF",1,true);
+            messageOut.send(mosquitto);
+            print("Not enough water, turning pump off");
+        }
+    }
+    else if(message.content.trim() == "1")
+    {
+        tankWaterSensor = "1";
+    }
+
+}
+else if (message.topic == pumpStatusTopic)
+{
+    pumpStatus = message.content.trim();
+}

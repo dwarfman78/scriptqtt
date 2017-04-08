@@ -1,4 +1,14 @@
 #########################################
 # Custom vars
 #########################################
-# TODO
+var nbValRec = 0;
+var cumulVal = 0;
+var stopCumul = false;
+var threshold = 350;
+var tankWaterSensor = "0";
+var pumpStatus = "OFF";
+var tankLightSensorTopic = "home/tank/lightsensor";
+var dayTimeTopic = "dayTime";
+var pumpTopic = "home/tank/pump";
+var pumpStatusTopic = "home/tank/pump/status";
+var tankWaterSensorTopic = "home/tank/sensor";
