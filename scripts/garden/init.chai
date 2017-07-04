@@ -1,14 +1,20 @@
 #########################################
 # Custom vars
 #########################################
-var nbValRec = 0;
-var cumulVal = 0;
-var stopCumul = false;
-var threshold = 350;
+var brokerIp = "192.168.1.248".c_str();
+var brokerPort = 1883;
+var keepAlive = -1;
+var cleanSession = false;
+var threshold = 200;
 var tankWaterSensor = "0";
 var pumpStatus = "OFF";
-var tankLightSensorTopic = "home/tank/lightsensor";
+var moistureStatus = 200;
 var dayTimeTopic = "dayTime";
 var pumpTopic = "home/tank/pump";
 var pumpStatusTopic = "home/tank/pump/status";
 var tankWaterSensorTopic = "home/tank/sensor";
+var greenhouseMoistureSensorTopic = "home/greenhouse/moisture";
+var clientId = "CLIENTGARDEN".c_str();
+mosquitto.init(clientId,cleanSession);
+mosquitto.connect(brokerIp,brokerPort,keepAlive);
+print("connecting...");

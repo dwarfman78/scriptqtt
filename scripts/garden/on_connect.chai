@@ -2,7 +2,7 @@
 # Subscribe to topics
 #########################################
 mosquitto.subscribe(dayTimeTopic,1);
-mosquitto.subscribe(tankLightSensorTopic,1);
+mosquitto.subscribe(greenhouseMoistureSensorTopic,1);
 mosquitto.subscribe(tankWaterSensorTopic,1);
 mosquitto.subscribe(pumpStatusTopic,1);
 #########################################

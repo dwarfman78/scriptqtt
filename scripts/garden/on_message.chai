@@ -1,41 +1,22 @@
 if(message.topic == dayTimeTopic)
 {
-    if(message.content == "evening")
+    if(message.content == "sunset")
     {
-        if(nbValRec > 0)
-        {
-            var todayLightValue = cumulVal / nbValRec;
-
-            if(todayLightValue > threshold && tankWaterSensor == "1")
-            {
-                var messageOut = Message(pumpTopic,"ON",1,true);
-                messageOut.send(mosquitto);
-                print (to_string(todayLightValue) + ">" + to_string(threshold));
-                print("Pump on");
-            }
-        }
-        nbValRec = 0;
-        cumulVal = 0;
-        stopCumul = true;
+	if(pumpStatus == "OFF")
+	{
+		if(moistureStatus<threshold)
+		{
+			print("Moisture (" + to_string(moistureStatus) + ") under threshold("+to_string(threshold)+"), turning pump on");
+			var messageOut = Message(pumpTopic,"ON",1,true);
+			messageOut.send(mosquitto);
+		}
+	}
     }
-    if(message.content == "night")
+    if(message.content == "evening")
     {
         var messageOut = Message(pumpTopic,"OFF",1,true);
         messageOut.send(mosquitto);
         print("Pump off");
-    }
-    if(message.content == "day")
-    {
-        stopCumul = false;
-    }
-}
-else if (message.topic == tankLightSensorTopic)
-{
-    if(!stopCumul)
-    {
-        nbValRec+=1;
-        cumulVal+=to_int(message.content);
-        print(cumulVal);
     }
 }
 else if (message.topic == tankWaterSensorTopic)
@@ -60,4 +41,8 @@ else if (message.topic == tankWaterSensorTopic)
 else if (message.topic == pumpStatusTopic)
 {
     pumpStatus = message.content.trim();
+}
+else if (message.topic == greenhouseMoistureSensorTopic)
+{
+	moistureStatus = to_int(message.content);	
 }

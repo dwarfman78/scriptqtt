@@ -1,7 +1,14 @@
 #########################################
 # Custom vars
 #########################################
+var brokerIp = "192.168.1.248".c_str();
+var brokerPort = 1883;
+var keepAlive = -1;
+var cleanSession = true;
 var dayTimeTopic = "dayTime";
 var tvTopic = "home/living/tv";
 #########################################
-
+var clientId="CLIENTPOWER".c_str();
+mosquitto.init(clientId,cleanSession);
+mosquitto.connect(brokerIp,brokerPort,keepAlive);
+print("connecting...");
